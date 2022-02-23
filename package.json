@@ -1,10 +1,20 @@
 {
   "name": "dgd-flowchart",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Render tree using mermaid flowchart",
   "author": "ouhare <ouhare@gmail.com>",
-  "keywords": ["flowchart", "graph", "render", "mermaid", "treeview", "tree", "view"],
-  "files": ["dist"],
+  "keywords": [
+    "flowchart",
+    "graph",
+    "render",
+    "mermaid",
+    "treeview",
+    "tree",
+    "view"
+  ],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/dgd-flowchart.umd.js",
   "module": "./dist/dgd-flowchart.es.js",
   "exports": {
