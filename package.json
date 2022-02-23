@@ -1,6 +1,6 @@
 {
   "name": "dgd-flowchart",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Render tree using mermaid flowchart",
   "author": "ouhare <ouhare@gmail.com>",
   "keywords": ["flowchart", "graph", "render", "mermaid", "treeview", "tree", "view"],
