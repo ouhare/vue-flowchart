@@ -4,13 +4,17 @@
   "description": "Render tree using mermaid flowchart",
   "author": "ouhare <ouhare@gmail.com>",
   "keywords": [
+    "vue",
+    "vuejs",
     "flowchart",
     "graph",
     "render",
     "mermaid",
     "treeview",
     "tree",
-    "view"
+    "view",
+    "flow",
+    "chart"
   ],
   "files": [
     "dist"
