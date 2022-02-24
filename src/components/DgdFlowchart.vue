@@ -1,15 +1,18 @@
 <template>
-  <div ref="root" @click="triggerOnClick" />
+  <div ref="root" style="overflow: hidden" @click="triggerOnClick" />
 </template>
 
 <script>
 import mermaid from 'mermaid'
+import { select, zoom } from 'd3'
 import { defineComponent, ref, onMounted, watch } from 'vue'
 
 import { getUid, getShape, getLink, recursiveFind } from './helpers.js'
 
 export default defineComponent({
   name: 'DgdFlowchart',
+
+  emits: ['click', 'zoom'],
 
   props: {
     modelValue: {
@@ -32,10 +35,17 @@ export default defineComponent({
     }
   },
 
-  setup (props) {
+  setup (props, ctx) {
     const root = ref(null)
 
-    mermaid.initialize({ startOnLoad: false })
+    console.log(ctx.attrs)
+
+    mermaid.initialize({
+      startOnLoad: false,
+      flowchart: {
+        useMaxWidth: false
+      }
+    })
 
     const getClasses = (tree) => {
       return tree.reduce((acc, current) => {
@@ -81,6 +91,17 @@ export default defineComponent({
       return nodes
     }
 
+    const initZoom = (id) => {
+      const svg = select('#' + id)
+      svg.html('<g>' + svg.html() + '</g>')
+      const inner = svg.select('g')
+      const zoomCallback = zoom().on('zoom', (event) => {
+        inner.attr('transform', event.transform)
+        ctx.emit('zoom', event)
+      })
+      svg.call(zoomCallback).on('dblclick.zoom', null)
+    }
+
     const initGraph = (tree) => {
       const uid = getUid()
       const graph = getGraph(tree)
@@ -89,11 +110,13 @@ export default defineComponent({
 
       mermaid.render(uid, graph, (svgCode) => {
         root.value.innerHTML = svgCode
+        initZoom(uid)
       })
     }
 
     const triggerOnClick = (ev) => {
-      ev.path.forEach(el => {
+      const path = ev.path || (ev.composedPath && ev.composedPath())
+      path.forEach(el => {
         if (el.classList && el.classList.contains('clickable')) {
           const splits = el.id.split('-')
           if (splits.length === 3) {

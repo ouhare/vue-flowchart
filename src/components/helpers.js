@@ -40,6 +40,9 @@ const getTextLinkType = (type) => {
     case 'line': return '-- TEXT ---'
     case 'dotted': return '-. TEXT .->'
     case 'thick': return '== TEXT ==>'
+    case 'multi_round': return 'o-- TEXT --o'
+    case 'multi_arrow': return '<-- TEXT -->'
+    case 'multi_cross': return 'x-- TEXT --x'
     case 'arrow':
     default: return '-- TEXT -->'
   }

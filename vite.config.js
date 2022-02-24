@@ -11,7 +11,7 @@ export default defineConfig({
       fileName: (format) => `dgd-flowchart.${format}.js`
     },
     rollupOptions: {
-      external: ['vue', 'mermaid'],
+      external: ['vue', 'mermaid', 'd3'],
       output: {
         globals: {
           vue: 'Vue'

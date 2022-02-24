@@ -1,9 +1,9 @@
+<template>
+  <dgd-flowchart class="chart" v-model="data" @click="onClick" @zoom="onZoom" />
+</template>
+
 <script setup>
-import { ref } from 'vue'
-
 import { DgdFlowchart } from './components'
-
-const empty = ref([])
 
 const onClick = (node) => {
   console.log('Global click', node)
@@ -13,18 +13,8 @@ const onNode1Click = (node) => {
   console.log('Node 1 click', node)
 }
 
-const addNode = () => {
-  const rd = new Date().getTime()
-  empty.value.push({
-    id: rd,
-    label: `New Node ${rd}.`,
-    children: [
-      {
-        id: 'c' + rd,
-        label: `New Subnode c${rd}`
-      }
-    ]
-  })
+const onZoom = (event) => {
+  console.log(event)
 }
 
 const data = [
@@ -37,6 +27,7 @@ const data = [
     id: 1,
     label: 'Node 1',
     onClick: onNode1Click,
+    shape: 'rhombus',
     children: [
       {
         id: 2,
@@ -61,6 +52,7 @@ const data = [
               {
                 id: 311,
                 label: 'Node 1.2.1.1',
+                shape: 'cylindrical',
                 link: 'thick'
               }
             ]
@@ -76,8 +68,8 @@ const data = [
         id: 4,
         label: 'Node 1.3',
         link: {
-          type: 'dotted',
-          text: '!'
+          type: 'multi_cross',
+          text: '!!!!!'
         }
       }
     ]
@@ -85,17 +77,22 @@ const data = [
 ]
 </script>
 
-<template>
-  <dgd-flowchart v-model="data" :onClick="onClick" />
-</template>
-
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  height: 100vh;
+  width: 100vw;
+}
+
+.chart, .chart > svg {
+  width: 100%;
+  height: 100%;
 }
 </style>
