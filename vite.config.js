@@ -7,8 +7,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/components/index.js'),
-      name: 'DgdFlowchart',
-      fileName: (format) => `dgd-flowchart.${format}.js`
+      name: 'VueFlowchart',
+      fileName: (format) => `vue-flowchart.${format}.js`
     },
     rollupOptions: {
       external: ['vue', 'mermaid', 'd3', 'lodash'],

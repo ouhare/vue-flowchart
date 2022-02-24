@@ -1,5 +1,5 @@
 {
-  "name": "dgd-flowchart",
+  "name": "vue-flowchart",
   "version": "1.0.0",
   "description": "Render tree using mermaid flowchart",
   "author": "ouhare <ouhare@gmail.com>",
@@ -20,22 +20,22 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/dgd-flowchart.umd.js",
-  "module": "./dist/dgd-flowchart.es.js",
+  "main": "./dist/vue-flowchart.umd.js",
+  "module": "./dist/vue-flowchart.es.js",
   "exports": {
     ".": {
-      "import": "./dist/dgd-flowchart.es.js",
-      "require": "./dist/dgd-flowchart.umd.js"
+      "import": "./dist/vue-flowchart.es.js",
+      "require": "./dist/vue-flowchart.umd.js"
     }
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ouhare/dgd-flowchart.git"
+    "url": "https://github.com/ouhare/vue-flowchart.git"
   },
   "bugs": {
-    "url": "https://github.com/ouhare/dgd-flowchart.git/issues"
+    "url": "https://github.com/ouhare/vue-flowchart.git/issues"
   },
-  "homepage": "https://github.com/ouhare/dgd-flowchart",
+  "homepage": "https://github.com/ouhare/vue-flowchart",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

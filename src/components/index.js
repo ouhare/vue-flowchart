@@ -1,1 +1,1 @@
-export { default as DgdFlowchart } from './DgdFlowchart.vue'
+export { default as VueFlowchart } from './VueFlowchart.vue'

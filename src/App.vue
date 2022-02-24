@@ -1,9 +1,9 @@
 <template>
-  <dgd-flowchart debug class="chart" v-model="data" @click="onClick" />
+  <vue-flowchart debug class="chart" v-model="data" @click="onClick" />
 </template>
 
 <script setup>
-import { DgdFlowchart } from './components'
+import { VueFlowchart } from './components'
 
 const onClick = (node) => {
   console.log('Global click', node)

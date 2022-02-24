@@ -10,7 +10,7 @@ import { defineComponent, ref, onMounted, watch } from 'vue'
 import { getUid, getShape, getLink, getClasses, getStyles, recursiveFind } from './helpers.js'
 
 export default defineComponent({
-  name: 'DgdFlowchart',
+  name: 'VueFlowchart',
 
   emits: ['zoom'],
 
@@ -95,10 +95,9 @@ export default defineComponent({
       const graph = getGraph(tree)
 
       if (props.debug) {
-        console.warn('dgd-flowchart: debug mode for ' + uid)
-        console.warn('------------- START -------------')
+        console.warn('vue-flowchart: debug mode for ' + uid + ' is enabled.')
+        console.warn('Logging graph definition:')
         console.log(graph)
-        console.warn('------------- END -------------')
       }
 
       mermaid.render(uid, graph, (svgCode) => {

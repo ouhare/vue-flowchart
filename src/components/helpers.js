@@ -1,7 +1,7 @@
 import { kebabCase } from 'lodash'
 
 export const getUid = () => {
-  return 'dgd-flowchart-' + Math.floor((1 + Math.random()) * 0x10000000)
+  return 'vue-flowchart-' + Math.floor((1 + Math.random()) * 0x10000000)
     .toString(16)
     .substring(1)
 }
