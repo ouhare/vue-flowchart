@@ -14,7 +14,9 @@ export default defineConfig({
       external: ['vue', 'mermaid', 'd3'],
       output: {
         globals: {
-          vue: 'Vue'
+          vue: 'Vue',
+          mermaid: 'mermaid',
+          d3: 'd3'
         }
       }
     }

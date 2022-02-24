@@ -14,7 +14,8 @@
     "tree",
     "view",
     "flow",
-    "chart"
+    "chart",
+    "zoom"
   ],
   "files": [
     "dist"
