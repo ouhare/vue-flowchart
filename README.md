@@ -1,4 +1,4 @@
-# @dgd/vue-flowchart
+# @dgdv/vue-flowchart
 > Render tree data using mermaid flowchart
 
 ## Dependencies
@@ -9,13 +9,13 @@
 
 ## How to install
 
-Add `@dgd/vue-flowchart` to your project
+Add `@dgdv/vue-flowchart` to your project
 ```
-$ npm install --save @dgd/vue-flowchart
+$ npm install --save @dgdv/vue-flowchart
 ```
 OR
 ```
-$ yarn add @dgd/vue-flowchart
+$ yarn add @dgdv/vue-flowchart
 ```
 
 Use in vue 3 app
@@ -25,7 +25,7 @@ Use in vue 3 app
 </template>
 
 <script>
-import { VueFlowchart } from '@dgd/vue-flowchart'
+import { VueFlowchart } from '@dgdv/vue-flowchart'
 
 export default {
   setup () {
