@@ -1,16 +1,19 @@
 # dgd-flowchart
 > Render tree data using mermaid flowchart
 
-## Requirements
+## Dependencies
 + [Vue.js](https://vuejs.org/)
 + [mermaid](https://mermaid-js.github.io/mermaid/#/)
 + [d3js](https://d3js.org/) - use for zooming
++ [lodash](https://lodash.com/)
 
 ## How to install
 
-Add to dependencies
+Add `dgd-flowchart` to your project
 ```bash
 $ npm install --save dgd-flowchart
+# OR
+$ yarn add dgd-flowchart
 ```
 
 Use in vue 3 app
@@ -79,12 +82,13 @@ export default defineComponent({
 ## Node options
 + id: int | string - required
 + label: string
-+ shape: shapeType (optionnal - see below)
-+ link: linkType (optionnal - see below - only for children)
++ shape: `shapeType` (optionnal - see below)
++ style: `styleOptions` (optionnal - see below)
++ link: `linkType` (optionnal - see below - only for children)
 + children: array (optionnal)
 + onClick: function (optionnal) - apply only on current node
 
-## Shape Types
+### `shapeType` values
 + round (default)
 + stadium
 + subroutine
@@ -99,7 +103,33 @@ export default defineComponent({
 + trapezoid_alt
 
 
-## Link Types (only for children)
+### `styleOptions` values
+> an object with any color / painting properties shared by svg and css
++ fill
++ stroke
++ strokeWidth
++ color
++ strokeDasharray
++ strokeOpacity
++ and more...
+
+#### Example:
+```js
+{
+  id: 1,
+  label: 'My Styled Node',
+  style: {
+    fill: '#bbf',
+    stroke: '#f66',
+    strokeWidth: '2px',
+    color: '#fff',
+    strokeDasharray: '4',
+    strokeOpacity: '0.5'
+  }
+}
+```
+
+### `linkType` values (only for children)
 + arrow (default)
 + line
 + dotted
@@ -108,7 +138,7 @@ export default defineComponent({
 + multi_arrow
 + multi_cross
 
-if you need link with text, use this syntax:
+#### if you need link with text, use this syntax:
 ```js
 {
   type: linkType,

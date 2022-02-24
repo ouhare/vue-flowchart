@@ -7,7 +7,7 @@ import mermaid from 'mermaid'
 import { select, zoom } from 'd3'
 import { defineComponent, ref, onMounted, watch } from 'vue'
 
-import { getUid, getShape, getLink, recursiveFind } from './helpers.js'
+import { getUid, getShape, getLink, getClasses, getStyles, recursiveFind } from './helpers.js'
 
 export default defineComponent({
   name: 'DgdFlowchart',
@@ -49,24 +49,10 @@ export default defineComponent({
       }
     })
 
-    const getClasses = (tree) => {
-      return tree.reduce((acc, current) => {
-        if (!current) return acc
-
-        if (props.onClick || current.onClick) {
-          acc += `class ${current.id} clickable\n`
-        }
-
-        if (current.children) acc += getClasses(current.children)
-
-        return acc
-      }, '')
-    }
-
     const getGraph = (tree) => {
       if (!tree.length) return `flowchart ${props.orientation}\n`
 
-      return `flowchart ${props.orientation}\n${renderNode(tree)}\n${getClasses(tree)}`
+      return `flowchart ${props.orientation}\n${renderNode(tree)}\n${getClasses(tree, props.onClick)}\n${getStyles(tree)}`
     }
 
     const renderNode = (tree, father = null) => {
@@ -74,11 +60,11 @@ export default defineComponent({
         if (!current) return acc
 
         const id = current.id
-        const label = current.label
+        const label = current.label.replace('"', '')
         const shape = current.shape
         const children = current.children
 
-        acc += `${id}${getShape(shape).replace('TEXT', label)}\n`
+        acc += `${id}${getShape(shape).replace('TEXT', `"${label}"`)}\n`
 
         if (father) {
           const link = getLink(current.link)
@@ -108,7 +94,12 @@ export default defineComponent({
       const uid = getUid()
       const graph = getGraph(tree)
 
-      if (props.debug) console.log(graph)
+      if (props.debug) {
+        console.warn('dgd-flowchart: debug mode for ' + uid)
+        console.warn('------------- START -------------')
+        console.log(graph)
+        console.warn('------------- END -------------')
+      }
 
       mermaid.render(uid, graph, (svgCode) => {
         root.value.innerHTML = svgCode

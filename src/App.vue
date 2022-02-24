@@ -1,5 +1,5 @@
 <template>
-  <dgd-flowchart debug class="chart" v-model="data" />
+  <dgd-flowchart debug class="chart" v-model="data" @click="onClick" />
 </template>
 
 <script setup>
@@ -13,14 +13,10 @@ const onNode1Click = (node) => {
   console.log('Node 1 click', node)
 }
 
-const onZoom = (event) => {
-  console.log(event)
-}
-
 const data = [
   {
     id: 134,
-    label: 'Node 134',
+    label: '(Hello worlD | ! / héhé)"""',
     shape: 'trapezoid_alt'
   },
   {
@@ -32,14 +28,27 @@ const data = [
       {
         id: 2,
         label: 'Node 1.1',
+        style: {
+          fill: '#f9f',
+          stroke: '#333',
+          strokeWidth: '4px'
+        },
         link: {
           type: 'thick',
-          text: 'Hello'
+          text: '\'\'`(Hello worlD | ! / héhé)"""'
         }
       },
       {
         id: 3,
         label: 'Node 1.2',
+        style: {
+          fill: '#bbf',
+          stroke: '#f66',
+          strokeWidth: '2px',
+          color: '#fff',
+          strokeDasharray: '4',
+          strokeOpacity: '0.5'
+        },
         link: {
           type: 'line',
           text: 'World'

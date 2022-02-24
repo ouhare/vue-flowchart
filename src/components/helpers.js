@@ -1,3 +1,5 @@
+import { kebabCase } from 'lodash'
+
 export const getUid = () => {
   return 'dgd-flowchart-' + Math.floor((1 + Math.random()) * 0x10000000)
     .toString(16)
@@ -52,17 +54,51 @@ export const getLink = (link) => {
   let type, text
   if (typeof link === 'object') {
     type = link.type
-    text = link.text
+    text = link.text.replace('"', '')
   } else {
     type = link
     text = ''
   }
 
   if (text) {
-    return getTextLinkType(type).replace('TEXT', text)
+    return getTextLinkType(type).replace('TEXT', `"${text}"`)
   } else {
     return getLinkType(type)
   }
+}
+
+export const getClasses = (tree, globalOnClick) => {
+  return tree.reduce((acc, current) => {
+    if (!current) return acc
+
+    if (globalOnClick || current.onClick) {
+      acc += `class ${current.id} clickable\n`
+    }
+
+    if (current.children) acc += getClasses(current.children, globalOnClick)
+
+    return acc
+  }, '')
+}
+
+export const getStyles = (tree) => {
+  return tree.reduce((acc, current) => {
+    if (!current) return acc
+
+    if (current.style) {
+      const attrs = []
+      Object.keys(current.style).forEach(key => {
+        const attr = `${kebabCase(key)}:${current.style[key]}`
+        attrs.push(attr)
+      })
+
+      acc += `style ${current.id} ${attrs.join(',')}\n`
+    }
+
+    if (current.children) acc += getStyles(current.children)
+
+    return acc
+  }, '')
 }
 
 export const recursiveFind = (tree, id) => {
