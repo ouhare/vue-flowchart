@@ -1,5 +1,5 @@
 {
-  "name": "vue-flowchart",
+  "name": "@dgd/vue-flowchart",
   "version": "1.0.0",
   "description": "Render tree using mermaid flowchart",
   "author": "ouhare <ouhare@gmail.com>",
