@@ -4,6 +4,7 @@
 ## Requirements
 + [Vue.js](https://vuejs.org/)
 + [mermaid](https://mermaid-js.github.io/mermaid/#/)
++ [d3js](https://d3js.org/) - use for zooming
 
 ## How to install
 
@@ -15,7 +16,7 @@ $ npm install --save dgd-flowchart
 Use in vue 3 app
 ```vue
 <template>
-  <dgd-flowchart v-model="data" :onClick="allNodesClick" />
+  <dgd-flowchart orientation="TD" v-model="data" @click="allNodesClick" @zoom="onZoom" />
 </template>
 
 <script>
@@ -33,6 +34,11 @@ export default defineComponent({
     const onNodeClick = (node) => {
       // specific node
       console.log(node)
+    }
+
+    const onZoom = (event) => {
+      // zoom event
+      console.log(event)
     }
 
     const data = [
@@ -54,7 +60,8 @@ export default defineComponent({
 
     return {
       data,
-      allNodesClick
+      allNodesClick,
+      onZoom
     }
   }
 })
@@ -63,8 +70,11 @@ export default defineComponent({
 
 ## Props
 + orientation: string - 'TD' by default
-+ debug: boolean - if true, mermaid graph definition will be console.log
-+ onClick: function - apply on every node
++ debug: boolean - if true, mermaid graph definition will be console.log on every render
+
+## Events
++ @click: function (used on component, every nodes will be clickable)
++ @zoom: function
 
 ## Node options
 + id: int | string - required

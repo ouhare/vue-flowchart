@@ -1,5 +1,5 @@
 <template>
-  <dgd-flowchart class="chart" v-model="data" @click="onClick" @zoom="onZoom" />
+  <dgd-flowchart debug class="chart" v-model="data" />
 </template>
 
 <script setup>

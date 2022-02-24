@@ -12,7 +12,7 @@ import { getUid, getShape, getLink, recursiveFind } from './helpers.js'
 export default defineComponent({
   name: 'DgdFlowchart',
 
-  emits: ['click', 'zoom'],
+  emits: ['zoom'],
 
   props: {
     modelValue: {
@@ -32,13 +32,15 @@ export default defineComponent({
 
     onClick: {
       type: Function
+    },
+
+    onZoom: {
+      type: Function
     }
   },
 
   setup (props, ctx) {
     const root = ref(null)
-
-    console.log(ctx.attrs)
 
     mermaid.initialize({
       startOnLoad: false,
@@ -97,7 +99,7 @@ export default defineComponent({
       const inner = svg.select('g')
       const zoomCallback = zoom().on('zoom', (event) => {
         inner.attr('transform', event.transform)
-        ctx.emit('zoom', event)
+        if (props.onZoom) ctx.emit('zoom', event)
       })
       svg.call(zoomCallback).on('dblclick.zoom', null)
     }
