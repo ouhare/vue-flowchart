@@ -25,6 +25,16 @@ export default defineComponent({
       default: 'TD'
     },
 
+    parentKey: {
+      type: String,
+      default: 'parentId'
+    },
+
+    flatArray: {
+      type: Boolean,
+      default: false
+    },
+
     debug: {
       type: Boolean,
       default: false
@@ -60,11 +70,29 @@ export default defineComponent({
         if (!current) return acc
 
         const id = current.id
-        const label = current.label.replace('"', '')
+        const label = current.label ? current.label.replace('"', '') : ''
         const shape = current.shape
         const children = current.children
+        const caption = current.caption || null
+        const avatar = current.avatar && current.avatar.url ? current.avatar : null
 
-        acc += `${id}${getShape(shape).replace('TEXT', `"${label}"`)}\n`
+        const row = 'display: flex; flex-direction: row;'
+        const column = 'display: flex; flex-direction: column;'
+        const itemsCenter = 'align-items: center;'
+        const textCaption = 'font-size: 0.75em; font-weight: 400; letter-spacing: 0.0333em;'
+        const textItalic = 'font-style: italic;'
+        const textGrey = 'color: rgb(158,158,158);'
+        const img = 'display: inline-block; margin-right: 8px; border-radius: 100%;'
+
+        if (avatar && caption) {
+          acc += `${id}${getShape(shape).replace('TEXT', `"<div style='${row} ${itemsCenter}'><img src='${avatar.url}' width='${avatar.width || 40}' height='${avatar.height || 40}' style='${img}' /><div style='${column}'><div>${label}</div><div style='${textGrey} ${textItalic} ${textCaption}'>${caption}</div></div></div>"`)}\n`
+        } else if (avatar && !caption) {
+          acc += `${id}${getShape(shape).replace('TEXT', `"<div style='${row} ${itemsCenter}'><img src='${avatar.url}' width='${avatar.width || 40}' height='${avatar.height || 40}' style='${img}' /><div>${label}</div></div>"`)}\n`
+        } else if (!avatar && caption) {
+          acc += `${id}${getShape(shape).replace('TEXT', `"<div style='${column}'><div>${label}</div><div style='${textGrey} ${textItalic} ${textCaption}'>${caption}</div></div>"`)}\n`
+        } else {
+          acc += `${id}${getShape(shape).replace('TEXT', `"${label}"`)}\n`
+        }
 
         if (father) {
           const link = getLink(current.link)
@@ -122,10 +150,60 @@ export default defineComponent({
       })
     }
 
-    onMounted(() => initGraph(props.modelValue))
+    const construcTree = (values) => {
+      const parentKey = props.parentKey || 'parentId'
+
+      const alreadyPassed = []
+      const getChildren = (id) => {
+        alreadyPassed.push(id)
+        const childrenFilter = values.filter(c => c[parentKey] === id)
+        const children = []
+        childrenFilter.forEach(m => {
+          if (alreadyPassed.includes(m.id)) return
+          children.push({
+            id: m.id,
+            avatar: m.avatar,
+            label: m.label,
+            caption: m.caption,
+            style: m.style,
+            link: m.link,
+            shape: m.shape,
+            children: getChildren(m.id)
+          })
+        })
+        return children
+      }
+      const parents = values.filter(c => !c[parentKey] || c[parentKey] === c.id)
+      const nodes = []
+      parents.forEach(p => {
+        nodes.push({
+          id: p.id,
+          avatar: p.avatar,
+          label: p.label,
+          caption: p.caption,
+          style: p.style,
+          link: p.link,
+          shape: p.shape,
+          children: getChildren(p.id)
+        })
+      })
+      initGraph(nodes)
+    }
+
+    onMounted(() => {
+      if (!props.flatArray) {
+        initGraph(props.modelValue)
+      } else {
+        construcTree(props.modelValue)
+      }
+    })
 
     watch(() => props.modelValue, (newVal) => {
-      initGraph(newVal)
+      if (!props.flatArray) {
+        initGraph(newVal)
+      } else {
+        construcTree(newVal)
+      }
     }, { deep: true })
 
     return {

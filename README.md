@@ -19,6 +19,8 @@ $ yarn add @dgdv/vue-flowchart
 ```
 
 Use in vue 3 app
+
+> Data as tree
 ```vue
 <template>
   <vue-flowchart orientation="TD" v-model="data" @click="allNodesClick" @zoom="onZoom" />
@@ -71,9 +73,43 @@ export default {
 <script>
 ```
 
+> data as flat array
+
+```vue
+<template>
+  <vue-flowchart v-model="data" />
+</template>
+
+<script>
+import { VueFlowchart } from '@dgdv/vue-flowchart'
+
+export default {
+  setup () {
+    const data = [
+      {
+        id: 1,
+        label: 'Node 1'
+      },
+      {
+        id: 2,
+        label: 'Node 1.1',
+        parentId: 1
+      }
+    ]
+
+    return {
+      data
+    }
+  }
+}
+<script>
+```
+
 ## Props
 + orientation: string - 'TD' by default
 + debug: boolean - if true, mermaid graph definition will be console.log on every render
++ flatArray: boolean - if true, data must be a flat array (`false` by default)
++ parentKey: string - work with flatArray (`parentId` by default)
 
 ## Events
 + @click: function (used on component, every nodes will be clickable)
@@ -86,7 +122,15 @@ export default {
 + style: `styleOptions` (optionnal - see below)
 + link: `linkType` (optionnal - see below - only for children)
 + children: array (optionnal)
++ caption: string (optionnal)
++ parentId: int | string (optionnal, used with flatArray prop)
++ avatar: object (optionnal - see below)
 + onClick: function (optionnal) - apply only on current node
+
+### `avatar` properties
++ url
++ width (`40` by default)
++ height (`40` by default)
 
 ### `shapeType` values
 + round (default)

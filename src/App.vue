@@ -1,5 +1,8 @@
 <template>
-  <vue-flowchart debug class="chart" v-model="data" @click="onClick" />
+  <div style="display: flex; flex-direction: row;">
+    <vue-flowchart debug class="chart" v-model="data" @click="onClick" />
+    <vue-flowchart debug class="chart" :flatArray="true" parentKey="parent" v-model="flatData" @click="onClick" />
+  </div>
 </template>
 
 <script setup>
@@ -28,6 +31,10 @@ const data = [
       {
         id: 2,
         label: 'Node 1.1',
+        avatar: {
+          url: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'
+        },
+        caption: 'I\'m a caption',
         style: {
           fill: '#f9f',
           stroke: '#333',
@@ -82,6 +89,82 @@ const data = [
         }
       }
     ]
+  }
+]
+
+const flatData = [
+  {
+    id: 134,
+    label: 'Flat (Hello worlD | ! / héhé)"""',
+    shape: 'trapezoid_alt'
+  },
+  {
+    id: 1,
+    label: 'Flat Node 1',
+    onClick: onNode1Click,
+    shape: 'rhombus'
+  },
+  {
+    id: 2,
+    label: 'Flat Node 1.1',
+    avatar: {
+      url: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'
+    },
+    caption: 'I\'m a caption',
+    style: {
+      fill: '#f9f',
+      stroke: '#333',
+      strokeWidth: '4px'
+    },
+    link: {
+      type: 'thick',
+      text: '\'\'`(Hello worlD | ! / héhé)"""'
+    },
+    parent: 1
+  },
+  {
+    id: 3,
+    label: 'Flat Node 1.2',
+    style: {
+      fill: '#bbf',
+      stroke: '#f66',
+      strokeWidth: '2px',
+      color: '#fff',
+      strokeDasharray: '4',
+      strokeOpacity: '0.5'
+    },
+    link: {
+      type: 'line',
+      text: 'World'
+    },
+    parent: 1
+  },
+  {
+    id: 32,
+    label: 'Flat Node 1.2.2',
+    link: 'multi_arrow',
+    parent: 3
+  },
+  {
+    id: 31,
+    label: 'Flat Node 1.2.1',
+    parent: 3
+  },
+  {
+    id: 311,
+    label: 'Flat Node 1.2.1.1',
+    shape: 'cylindrical',
+    link: 'thick',
+    parent: 31
+  },
+  {
+    id: 4,
+    label: 'Flat Node 1.3',
+    link: {
+      type: 'multi_cross',
+      text: '!!!!!'
+    },
+    parent: 1
   }
 ]
 </script>

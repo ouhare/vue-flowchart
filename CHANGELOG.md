@@ -1,3 +1,12 @@
+## 1.1.0 (2022-02-25)
+
+### Features
+
++ add flatArray prop
++ add parentKey prop
++ add node avatar
++ add node caption
+
 ## 1.0.0 (2022-02-24)
 
 ### Features
