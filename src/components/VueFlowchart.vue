@@ -209,15 +209,14 @@ export default defineComponent({
       parents.forEach(p => {
         nodes.push({ ...p, children: getChildren(p.id) })
       })
-      console.log(nodes)
 
       return nodes
     }
 
     onMounted(() => initGraph(props.modelValue))
 
-    watch(() => props.modelValue, (newVal) => {
-      initGraph(newVal)
+    watch([() => props.modelValue, () => props.parentKey], ([newData]) => {
+      initGraph(newData)
     }, { deep: true })
 
     return {

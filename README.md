@@ -128,7 +128,7 @@ export default {
 + **debug** *boolean - if true, mermaid graph definition will be console.log on every render (`false` by default)*
 + **save-zoom** *boolean - if true, zooming and panning states will be saved using local storage (`false` by default)*
 + **flat-array** *boolean - if true, data must be a flat array (`false` by default)*
-+ **parent-key** *string - work with flatArray (`parentId` by default)*
++ **parent-key** *string - work with **flat-array** (`parentId` by default)*
 
 ## Events
 + **@click** *function (node, event)*
@@ -143,7 +143,7 @@ export default {
 + **link** *`linkType` (optionnal - see below - only for children)*
 + **children** *array (optionnal)*
 + **caption** *string (optionnal)*
-+ **parentId** *int | string (optionnal, used with flatArray prop)*
++ **parentId** *int | string (optionnal, used with **flat-array** prop)*
 + **avatar** *object (optionnal - see below)*
 + **onClick** *function (optionnal) - apply only on current node*
 
