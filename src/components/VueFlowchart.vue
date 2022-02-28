@@ -1,5 +1,5 @@
 <template>
-  <div ref="root" style="overflow: hidden" @click="triggerOnClick" />
+  <div ref="root" style="overflow: hidden" @click="triggerOnClick" @mousemove="triggerMouseMove" />
 </template>
 
 <script>
@@ -40,7 +40,21 @@ export default defineComponent({
       default: false
     },
 
+    locked: {
+      type: Boolean,
+      default: false
+    },
+
+    saveZoom: {
+      type: Boolean,
+      default: false
+    },
+
     onClick: {
+      type: Function
+    },
+
+    'onHover:node': {
       type: Function
     },
 
@@ -61,8 +75,7 @@ export default defineComponent({
 
     const getGraph = (tree) => {
       if (!tree.length) return `flowchart ${props.orientation}\n`
-
-      return `flowchart ${props.orientation}\n${renderNode(tree)}\n${getClasses(tree, props.onClick)}\n${getStyles(tree)}`
+      return `flowchart ${props.orientation}\n${renderNode(tree)}\n${getClasses(tree, props.onClick, props['onHover:node'])}\n${getStyles(tree)}`
     }
 
     const renderNode = (tree, father = null) => {
@@ -113,14 +126,17 @@ export default defineComponent({
       const inner = svg.select('g')
       const zoomCallback = zoom().on('zoom', (event) => {
         inner.attr('transform', event.transform)
-        if (props.onZoom) ctx.emit('zoom', event)
+        if (props.onZoom) props.onZoom(event)
       })
       svg.call(zoomCallback).on('dblclick.zoom', null)
     }
 
     const initGraph = (tree) => {
       const uid = getUid()
-      const graph = getGraph(tree)
+
+      const nodes = props.flatArray ? constructTree(tree) : tree
+
+      const graph = getGraph(nodes)
 
       if (props.debug) {
         console.warn('vue-flowchart: debug mode for ' + uid + ' is enabled.')
@@ -130,85 +146,83 @@ export default defineComponent({
 
       mermaid.render(uid, graph, (svgCode) => {
         root.value.innerHTML = svgCode
-        initZoom(uid)
+        if (!props.locked) initZoom(uid)
       })
     }
 
     const triggerOnClick = (ev) => {
-      const path = ev.path || (ev.composedPath && ev.composedPath())
-      path.forEach(el => {
-        if (el.classList && el.classList.contains('clickable')) {
-          const splits = el.id.split('-')
-          if (splits.length === 3) {
-            const node = recursiveFind(props.modelValue, splits[1])
-            if (node) {
-              if (node.onClick) return node.onClick(node)
-              if (props.onClick) return props.onClick(node)
-            }
-          }
+      let target = ev.target
+      if (!target) return
+
+      do {
+        target = target.parentNode
+      } while (target.classList && !target.classList.contains('clickable'))
+      if (!target || !target.getAttribute) return
+
+      const splits = target.getAttribute('id').split('-')
+      if (splits.length === 3) {
+        const node = recursiveFind(props.modelValue, splits[1])
+        if (node) {
+          if (node.onClick) return node.onClick(node, ev)
+          if (props.onClick) return props.onClick(node, ev)
         }
-      })
+      }
     }
 
-    const construcTree = (values) => {
+    const triggerMouseMove = (ev) => {
+      let target = ev.target
+      if (!target) return
+
+      do {
+        target = target.parentNode
+      } while (target.classList && !target.classList.contains('hoverable'))
+      if (!target || !target.getAttribute) return
+
+      const splits = target.getAttribute('id').split('-')
+      if (splits.length === 3) {
+        const node = recursiveFind(props.modelValue, splits[1])
+        if (node) {
+          if (node.onHover) return node.onHover(node, ev)
+          if (props['onHover:node']) return props['onHover:node'](node, ev)
+        }
+      }
+    }
+
+    const constructTree = (values) => {
       const parentKey = props.parentKey || 'parentId'
 
       const alreadyPassed = []
+
       const getChildren = (id) => {
         alreadyPassed.push(id)
         const childrenFilter = values.filter(c => c[parentKey] === id)
         const children = []
         childrenFilter.forEach(m => {
           if (alreadyPassed.includes(m.id)) return
-          children.push({
-            id: m.id,
-            avatar: m.avatar,
-            label: m.label,
-            caption: m.caption,
-            style: m.style,
-            link: m.link,
-            shape: m.shape,
-            children: getChildren(m.id)
-          })
+          children.push({ ...m, children: getChildren(m.id) })
         })
         return children
       }
+
       const parents = values.filter(c => !c[parentKey] || c[parentKey] === c.id)
       const nodes = []
       parents.forEach(p => {
-        nodes.push({
-          id: p.id,
-          avatar: p.avatar,
-          label: p.label,
-          caption: p.caption,
-          style: p.style,
-          link: p.link,
-          shape: p.shape,
-          children: getChildren(p.id)
-        })
+        nodes.push({ ...p, children: getChildren(p.id) })
       })
-      initGraph(nodes)
+
+      return nodes
     }
 
-    onMounted(() => {
-      if (!props.flatArray) {
-        initGraph(props.modelValue)
-      } else {
-        construcTree(props.modelValue)
-      }
-    })
+    onMounted(() => initGraph(props.modelValue))
 
-    watch(() => props.modelValue, (newVal) => {
-      if (!props.flatArray) {
-        initGraph(newVal)
-      } else {
-        construcTree(newVal)
-      }
+    watch([() => props.modelValue, () => props.parentKey], ([newData]) => {
+      initGraph(newData)
     }, { deep: true })
 
     return {
       root,
-      triggerOnClick
+      triggerOnClick,
+      triggerMouseMove
     }
   }
 })

@@ -1,12 +1,23 @@
 <template>
-  <div style="display: flex; flex-direction: row;">
-    <vue-flowchart debug class="chart" v-model="data" @click="onClick" />
-    <vue-flowchart debug class="chart" :flatArray="true" parentKey="parent" v-model="flatData" @click="onClick" />
+  <div class="row fit">
+    <div class="col text-center">
+      <h1>Data as tree</h1>
+      <vue-flowchart class="chart" v-model="data" @click="onClick" />
+    </div>
+    <div class="col text-center">
+      <h1>Data as flat array</h1>
+      toggle parentKey: <label><input value="parentId" type="radio" v-model="parentKey"> parentId</label> <label><input value="otherId" type="radio" v-model="parentKey"> otherId</label>
+      <vue-flowchart flat-array class="chart" :parent-key="parentKey" v-model="flatData" @click="onClick" />
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
 import { VueFlowchart } from './components'
+
+const parentKey = ref('parentId')
 
 const onClick = (node) => {
   console.log('Global click', node)
@@ -14,6 +25,11 @@ const onClick = (node) => {
 
 const onNode1Click = (node) => {
   console.log('Node 1 click', node)
+}
+
+const onHoverNode = (node, ev) => {
+  console.log(node)
+  console.log(ev)
 }
 
 const data = [
@@ -120,7 +136,8 @@ const flatData = [
       type: 'thick',
       text: '\'\'`(Hello worlD | ! / héhé)"""'
     },
-    parent: 1
+    parentId: 1,
+    otherId: 3
   },
   {
     id: 3,
@@ -137,25 +154,26 @@ const flatData = [
       type: 'line',
       text: 'World'
     },
-    parent: 1
+    parentId: 1,
+    otherId: 32
   },
   {
     id: 32,
     label: 'Flat Node 1.2.2',
     link: 'multi_arrow',
-    parent: 3
+    parentId: 3
   },
   {
     id: 31,
     label: 'Flat Node 1.2.1',
-    parent: 3
+    parentId: 3
   },
   {
     id: 311,
     label: 'Flat Node 1.2.1.1',
     shape: 'cylindrical',
     link: 'thick',
-    parent: 31
+    parentId: 31
   },
   {
     id: 4,
@@ -164,7 +182,7 @@ const flatData = [
       type: 'multi_cross',
       text: '!!!!!'
     },
-    parent: 1
+    parentId: 1
   }
 ]
 </script>
@@ -176,11 +194,33 @@ const flatData = [
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   width: 100vw;
+}
+
+.fit {
+  width: 100%;
+  height: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 1;
+}
+
+.j-around {
+  justify-content: space-around;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .chart, .chart > svg {

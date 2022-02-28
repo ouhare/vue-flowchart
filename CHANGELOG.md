@@ -1,9 +1,16 @@
+## 1.2.0 (2022-02-26)
+
+### Features
+
++ add `hover:node` event
++ add node `onHover` property
+
 ## 1.1.0 (2022-02-25)
 
 ### Features
 
-+ add flatArray prop
-+ add parentKey prop
++ add `flat-array` prop
++ add `parent-key` prop
 + add node avatar
 + add node caption
 
