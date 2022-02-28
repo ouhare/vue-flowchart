@@ -67,7 +67,7 @@ export const getLink = (link) => {
   }
 }
 
-export const getClasses = (tree, globalOnClick) => {
+export const getClasses = (tree, globalOnClick, globalOnHover) => {
   return tree.reduce((acc, current) => {
     if (!current) return acc
 
@@ -75,7 +75,11 @@ export const getClasses = (tree, globalOnClick) => {
       acc += `class ${current.id} clickable\n`
     }
 
-    if (current.children) acc += getClasses(current.children, globalOnClick)
+    if (globalOnHover || current.onHover) {
+      acc += `class ${current.id} hoverable\n`
+    }
+
+    if (current.children) acc += getClasses(current.children, globalOnClick, globalOnHover)
 
     return acc
   }, '')

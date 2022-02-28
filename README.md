@@ -1,10 +1,13 @@
 # @dgdv/vue-flowchart
 > Render tree data using mermaid flowchart
 
+## Description
+Render a flow graph using a tree structured or a flat array data with node customization, zoom / pan and click / hover events.
+
 ## Dependencies
 + [Vue.js](https://vuejs.org/)
 + [mermaid](https://mermaid-js.github.io/mermaid/#/)
-+ [d3js](https://d3js.org/) - use for zooming
++ [d3js](https://d3js.org/)
 + [lodash](https://lodash.com/)
 
 ## How to install
@@ -23,7 +26,7 @@ Use in vue 3 app
 > Data as tree
 ```vue
 <template>
-  <vue-flowchart orientation="TD" v-model="data" @click="allNodesClick" @zoom="onZoom" />
+  <vue-flowchart orientation="TD" v-model="data" @click="allNodesClick" @zoom="onZoom" @hover:node="allHoverNodes" />
 </template>
 
 <script>
@@ -31,12 +34,22 @@ import { VueFlowchart } from '@dgdv/vue-flowchart'
 
 export default {
   setup () {
-    const allNodesClick = (node) => {
+    const allNodesClick = (node, event) => {
       // all nodes
       console.log(node)
     }
 
-    const onNodeClick = (node) => {
+    const onNodeClick = (node, event) => {
+      // specific node
+      console.log(node)
+    }
+
+    const allHoverNodes = (node, event) => {
+      // all nodes
+      console.log(node)
+    }
+
+    const onNodeHover = (node, event) => {
       // specific node
       console.log(node)
     }
@@ -57,7 +70,8 @@ export default {
             label: 'Node 1.1',
             shape: 'stadium',
             link: 'line',
-            onClick: onNodeClick
+            onClick: onNodeClick,
+            onHover: onNodeHover
           }
         ]
       }
@@ -77,7 +91,7 @@ export default {
 
 ```vue
 <template>
-  <vue-flowchart v-model="data" />
+  <vue-flowchart flat-array parentKey="parentId" v-model="data" />
 </template>
 
 <script>
@@ -105,27 +119,33 @@ export default {
 <script>
 ```
 
-## Props
-+ orientation: string - 'TD' by default
-+ debug: boolean - if true, mermaid graph definition will be console.log on every render
-+ flatArray: boolean - if true, data must be a flat array (`false` by default)
-+ parentKey: string - work with flatArray (`parentId` by default)
+## API
+
+### Props
+
++ **orientation** *string - 'TD' by default*
++ **locked** *boolean - if true, zooming and panning will be disabled (`false` by default)*
++ **debug** *boolean - if true, mermaid graph definition will be console.log on every render (`false` by default)*
++ **save-zoom** *boolean - if true, zooming and panning states will be saved using local storage (`false` by default)*
++ **flat-array** *boolean - if true, data must be a flat array (`false` by default)*
++ **parent-key** *string - work with flatArray (`parentId` by default)*
 
 ## Events
-+ @click: function (used on component, every nodes will be clickable)
-+ @zoom: function
++ **@click** *function (node, event)*
++ **@hover:node** *function (node, event)*
++ **@zoom** *function (event)*
 
 ## Node options
-+ id: int | string - required
-+ label: string
-+ shape: `shapeType` (optionnal - see below)
-+ style: `styleOptions` (optionnal - see below)
-+ link: `linkType` (optionnal - see below - only for children)
-+ children: array (optionnal)
-+ caption: string (optionnal)
-+ parentId: int | string (optionnal, used with flatArray prop)
-+ avatar: object (optionnal - see below)
-+ onClick: function (optionnal) - apply only on current node
++ **id** *int | string - required*
++ **label** *string*
++ **shape** *`shapeType` (optionnal - see below)*
++ **style** *`styleOptions` (optionnal - see below)*
++ **link** *`linkType` (optionnal - see below - only for children)*
++ **children** *array (optionnal)*
++ **caption** *string (optionnal)*
++ **parentId** *int | string (optionnal, used with flatArray prop)*
++ **avatar** *object (optionnal - see below)*
++ **onClick** *function (optionnal) - apply only on current node*
 
 ### `avatar` properties
 + url
