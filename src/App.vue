@@ -2,7 +2,7 @@
   <div class="row fit">
     <div class="col text-center">
       <h1>Data as tree</h1>
-      <vue-flowchart class="chart" v-model="data" @click="onClick" />
+      <vue-flowchart class="chart" v-model="data" @click="onClick" @hover:node="onHoverNode" />
     </div>
     <div class="col text-center">
       <h1>Data as flat array</h1>
@@ -29,7 +29,6 @@ const onNode1Click = (node) => {
 
 const onHoverNode = (node, ev) => {
   console.log(node)
-  console.log(ev)
 }
 
 const data = [

@@ -176,7 +176,10 @@ export default defineComponent({
       do {
         target = target.parentNode
       } while (target.classList && !target.classList.contains('hoverable'))
-      if (!target || !target.getAttribute) return
+      if (!target || !target.getAttribute) {
+        if (props['onHover:node']) return props['onHover:node'](null, ev)
+        return
+      }
 
       const splits = target.getAttribute('id').split('-')
       if (splits.length === 3) {
