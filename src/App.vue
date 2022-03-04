@@ -111,7 +111,8 @@ const flatData = [
   {
     id: 134,
     label: 'Flat (Hello worlD | ! / héhé)"""',
-    shape: 'trapezoid_alt'
+    shape: 'trapezoid_alt',
+    parentId: 134
   },
   {
     id: 1,

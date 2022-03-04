@@ -112,6 +112,12 @@ export default defineComponent({
           acc += `${father.id}${link}${current.id}\n`
         }
 
+        // self link
+        if (current.parentId === current.id) {
+          const link = getLink(current.link)
+          acc += `${current.id}${link}${current.id}\n`
+        }
+
         if (children) acc += renderNode(children, current)
 
         return acc
