@@ -45,11 +45,6 @@ export default defineComponent({
       default: false
     },
 
-    saveZoom: {
-      type: Boolean,
-      default: false
-    },
-
     onClick: {
       type: Function
     },
