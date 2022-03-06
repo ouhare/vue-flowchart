@@ -1,3 +1,23 @@
+## 1.2.2 (2022-03-04)
+
+### Features
+
++ It's now possible to link a node to itself (flat-array mode only)
+
+```js
+const node = {
+  id: 1,
+  label: 'Node 1',
+  parentId: 1
+}
+```
+
+## 1.2.1 (2022-03-01)
+
+### Bugfixes
+
++ handle hover event on complete graph
+
 ## 1.2.0 (2022-02-26)
 
 ### Features
