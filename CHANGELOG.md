@@ -1,3 +1,9 @@
+## 1.2.3 (2022-03-07)
+
+### Bugfixes
+
++ Check self-link on `props.parentKey`
+
 ## 1.2.2 (2022-03-04)
 
 ### Features

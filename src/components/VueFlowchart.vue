@@ -108,7 +108,7 @@ export default defineComponent({
         }
 
         // self link
-        if (current.parentId === current.id) {
+        if (current[props.parentKey] === current.id) {
           const link = getLink(current.link)
           acc += `${current.id}${link}${current.id}\n`
         }
