@@ -2,7 +2,8 @@
   <div class="row fit">
     <div class="col text-center">
       <h1>Data as tree</h1>
-      <vue-flowchart class="chart" v-model="data" @click="onClick" @hover:node="onHoverNode" />
+      toggle orientation: <label><input value="LR" type="radio" v-model="orientation"> horizontal</label> <label><input value="TD" type="radio" v-model="orientation"> vertical</label>
+      <vue-flowchart class="chart" v-model="data" :orientation="orientation" @click="onClick" @hover:node="onHoverNode" />
     </div>
     <div class="col text-center">
       <h1>Data as flat array</h1>
@@ -18,6 +19,7 @@ import { ref } from 'vue'
 import { VueFlowchart } from './components'
 
 const parentKey = ref('parentId')
+const orientation = ref('TD')
 
 const onClick = (node) => {
   console.log('Global click', node)

@@ -22,6 +22,9 @@ export default defineComponent({
 
     orientation: {
       type: String,
+      validator (value) {
+        return ['TD', 'LR'].includes(value)
+      },
       default: 'TD'
     },
 
@@ -219,7 +222,11 @@ export default defineComponent({
 
     onMounted(() => initGraph(props.modelValue))
 
-    watch([() => props.modelValue, () => props.parentKey], ([newData]) => {
+    watch([
+      () => props.modelValue,
+      () => props.parentKey,
+      () => props.orientation
+    ], ([newData]) => {
       initGraph(newData)
     }, { deep: true })
 
