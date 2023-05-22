@@ -1,3 +1,9 @@
+## 1.2.4 (2023-05-22)
+
+### Bugfixes
+
++ Add watcher on `props.orientation`
+
 ## 1.2.3 (2022-03-07)
 
 ### Bugfixes
