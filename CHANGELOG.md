@@ -1,3 +1,31 @@
+## 1.2.5 (2024-07-10)
+
+### Features
+
++ It's now possible to add additional links in the graph
+
+```js
+const additionalLinks = [
+  {
+    from: 2,
+    to: 3,
+    link: {
+      type: 'thick',
+      text: 'Additional link'
+    }
+  },
+  {
+    from: 1,
+    to: 4,
+    link: 'dotted'
+  },
+  {
+    from: 1,
+    to: 31
+  }
+]
+```
+
 ## 1.2.4 (2023-05-22)
 
 ### Bugfixes
