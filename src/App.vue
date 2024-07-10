@@ -3,12 +3,12 @@
     <div class="col text-center">
       <h1>Data as tree</h1>
       toggle orientation: <label><input value="LR" type="radio" v-model="orientation"> horizontal</label> <label><input value="TD" type="radio" v-model="orientation"> vertical</label>
-      <vue-flowchart class="chart" v-model="data" :orientation="orientation" @click="onClick" @hover:node="onHoverNode" />
+      <vue-flowchart class="chart" v-model="data" :additional-links="additionalLinks" :orientation="orientation" @click="onClick" @hover:node="onHoverNode" />
     </div>
     <div class="col text-center">
       <h1>Data as flat array</h1>
       toggle parentKey: <label><input value="parentId" type="radio" v-model="parentKey"> parentId</label> <label><input value="otherId" type="radio" v-model="parentKey"> otherId</label>
-      <vue-flowchart flat-array class="chart" :parent-key="parentKey" v-model="flatData" @click="onClick" />
+      <vue-flowchart flat-array class="chart" :additional-links="additionalLinks" :parent-key="parentKey" v-model="flatData" @click="onClick" />
     </div>
   </div>
 </template>
@@ -185,6 +185,26 @@ const flatData = [
       text: '!!!!!'
     },
     parentId: 1
+  }
+]
+
+const additionalLinks = [
+  {
+    from: 2,
+    to: 3,
+    link: {
+      type: 'thick',
+      text: 'Additional link'
+    }
+  },
+  {
+    from: 1,
+    to: 4,
+    link: 'dotted'
+  },
+  {
+    from: 1,
+    to: 31
   }
 ]
 </script>
