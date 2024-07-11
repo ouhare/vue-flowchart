@@ -95,11 +95,12 @@ const renderNode = (tree, father = null) => {
     const textItalic = 'font-style: italic;'
     const textGrey = 'color: rgb(158,158,158);'
     const img = 'display: inline-block; margin-right: 8px; border-radius: 100%;'
+    const widthFitMaxContent = 'width: max-content;'
 
     if (avatar && caption) {
-      acc += `${id}${getShape(shape).replace('TEXT', `"<div style='${row} ${itemsCenter}'><img src='${avatar.url}' width='${avatar.width || 40}' height='${avatar.height || 40}' style='${img}' /><div style='${column}'><div>${label}</div><div style='${textGrey} ${textItalic} ${textCaption}'>${caption}</div></div></div>"`)}\n`
+      acc += `${id}${getShape(shape).replace('TEXT', `"<div style='${row} ${itemsCenter} ${widthFitMaxContent}'><img src='${avatar.url}' width='${avatar.width || 40}' height='${avatar.height || 40}' style='${img}' /><div style='${column}'><div>${label}</div><div style='${textGrey} ${textItalic} ${textCaption}'>${caption}</div></div></div>"`)}\n`
     } else if (avatar && !caption) {
-      acc += `${id}${getShape(shape).replace('TEXT', `"<div style='${row} ${itemsCenter}'><img src='${avatar.url}' width='${avatar.width || 40}' height='${avatar.height || 40}' style='${img}' /><div>${label}</div></div>"`)}\n`
+      acc += `${id}${getShape(shape).replace('TEXT', `"<div style='${row} ${itemsCenter} ${widthFitMaxContent}'><img src='${avatar.url}' width='${avatar.width || 40}' height='${avatar.height || 40}' style='${img}' /><div>${label}</div></div>"`)}\n`
     } else if (!avatar && caption) {
       acc += `${id}${getShape(shape).replace('TEXT', `"<div style='${column}'><div>${label}</div><div style='${textGrey} ${textItalic} ${textCaption}'>${caption}</div></div>"`)}\n`
     } else {
