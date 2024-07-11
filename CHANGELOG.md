@@ -1,3 +1,9 @@
+## 1.2.6 (2024-07-11)
+
+### Bugfixes
+
++ Fit width of graph node with avatar
+
 ## 1.2.5 (2024-07-10)
 
 ### Features
