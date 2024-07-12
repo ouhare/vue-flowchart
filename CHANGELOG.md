@@ -1,3 +1,9 @@
+## 1.2.7 (2024-07-12)
+
+### Bugfixes
+
++ Add watcher on `props.additionalLinks`
+
 ## 1.2.6 (2024-07-11)
 
 ### Bugfixes

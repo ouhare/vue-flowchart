@@ -2,24 +2,29 @@
   <div class="row fit">
     <div class="col text-center">
       <h1>Data as tree</h1>
-      toggle orientation: <label><input value="LR" type="radio" v-model="orientation"> horizontal</label> <label><input value="TD" type="radio" v-model="orientation"> vertical</label>
+      toggle orientation: <label><input value="LR" type="radio" v-model="orientation"> horizontal</label> <label><input value="TD" type="radio" v-model="orientation"> vertical</label><br />
+      display additional links: <label><input :value="true" type="radio" v-model="additionalLinksTree"> true</label> <label><input :value="false" type="radio" v-model="additionalLinksTree"> false</label>
       <vue-flowchart class="chart" v-model="data" :additional-links="additionalLinks" :orientation="orientation" @click="onClick" @hover:node="onHoverNode" />
     </div>
     <div class="col text-center">
       <h1>Data as flat array</h1>
-      toggle parentKey: <label><input value="parentId" type="radio" v-model="parentKey"> parentId</label> <label><input value="otherId" type="radio" v-model="parentKey"> otherId</label>
-      <vue-flowchart flat-array class="chart" :additional-links="additionalLinks" :parent-key="parentKey" v-model="flatData" @click="onClick" />
+      toggle parentKey: <label><input value="parentId" type="radio" v-model="parentKey"> parentId</label> <label><input value="otherId" type="radio" v-model="parentKey"> otherId</label><br />
+      toggle orientation: <label><input value="LR" type="radio" v-model="orientation"> horizontal</label> <label><input value="TD" type="radio" v-model="orientation"> vertical</label><br />
+      display additional links: <label><input :value="true" type="radio" v-model="additionalLinksFlat"> true</label> <label><input :value="false" type="radio" v-model="additionalLinksFlat"> false</label>
+      <vue-flowchart flat-array class="chart" :additional-links="additionalLinksForFlat" :orientation="orientation" :parent-key="parentKey" v-model="flatData" @click="onClick" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 import { VueFlowchart } from './components'
 
 const parentKey = ref('parentId')
 const orientation = ref('TD')
+const additionalLinksTree = ref(true)
+const additionalLinksFlat = ref(true)
 
 const onClick = (node) => {
   console.log('Global click', node)
@@ -188,25 +193,51 @@ const flatData = [
   }
 ]
 
-const additionalLinks = [
-  {
-    from: 2,
-    to: 3,
-    link: {
-      type: 'thick',
-      text: 'Additional link'
+const additionalLinks = computed(() => {
+  if (!additionalLinksTree.value) return []
+  return [
+    {
+      from: 2,
+      to: 3,
+      link: {
+        type: 'thick',
+        text: 'Additional link'
+      }
+    },
+    {
+      from: 1,
+      to: 4,
+      link: 'dotted'
+    },
+    {
+      from: 1,
+      to: 31
     }
-  },
-  {
-    from: 1,
-    to: 4,
-    link: 'dotted'
-  },
-  {
-    from: 1,
-    to: 31
-  }
-]
+  ]
+})
+
+const additionalLinksForFlat = computed(() => {
+  if (!additionalLinksFlat.value) return []
+  return [
+    {
+      from: 2,
+      to: 3,
+      link: {
+        type: 'thick',
+        text: 'Additional link'
+      }
+    },
+    {
+      from: 1,
+      to: 4,
+      link: 'dotted'
+    },
+    {
+      from: 1,
+      to: 31
+    }
+  ]
+})
 </script>
 
 <style>
@@ -245,7 +276,8 @@ const additionalLinks = [
   text-align: center;
 }
 
-.chart, .chart > svg {
+.chart,
+.chart>svg {
   width: 100%;
   height: 100%;
 }

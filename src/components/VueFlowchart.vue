@@ -234,6 +234,8 @@ onMounted(() => initGraph(props.modelValue))
 
 watch([
   () => props.modelValue,
+  () => props.debug,
+  () => props.additionalLinks,
   () => props.parentKey,
   () => props.orientation
 ], ([newData]) => {
